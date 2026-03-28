@@ -1,7 +1,7 @@
 'use client'
 
 import { motion, useInView } from 'framer-motion'
-import { useRef } from 'react'
+import { useRef, useState, useEffect, useCallback } from 'react'
 
 function FadeIn({ children, delay = 0, className = '' }: { children: React.ReactNode; delay?: number; className?: string }) {
   const ref = useRef(null)
@@ -13,11 +13,49 @@ function FadeIn({ children, delay = 0, className = '' }: { children: React.React
   )
 }
 
-const stats = [
-  { value: '22', label: 'Competitors monitored daily' },
-  { value: '8', label: 'Web apps deployed in 7 days' },
-  { value: '14,600+', label: 'Lines of code in one afternoon' },
-  { value: '∞', label: 'New tools shipped every night' },
+function AnimatedNumber({ value, suffix = '', duration = 1500 }: { value: number; suffix?: string; duration?: number }) {
+  const [display, setDisplay] = useState(0)
+  const ref = useRef<HTMLDivElement>(null)
+  const hasAnimated = useRef(false)
+  const isInView = useInView(ref, { once: true, amount: 0.3 })
+
+  const animate = useCallback(() => {
+    if (hasAnimated.current) return
+    hasAnimated.current = true
+    const start = performance.now()
+    const step = (now: number) => {
+      const elapsed = now - start
+      const progress = Math.min(elapsed / duration, 1)
+      const eased = 1 - Math.pow(1 - progress, 3)
+      setDisplay(Math.round(eased * value))
+      if (progress < 1) requestAnimationFrame(step)
+    }
+    requestAnimationFrame(step)
+  }, [value, duration])
+
+  useEffect(() => {
+    if (isInView) animate()
+  }, [isInView, animate])
+
+  return (
+    <div ref={ref}>
+      {display.toLocaleString()}{suffix}
+    </div>
+  )
+}
+
+interface StatItem {
+  value: number
+  displaySuffix: string
+  displayOverride?: string
+  label: string
+}
+
+const stats: StatItem[] = [
+  { value: 22, displaySuffix: '', label: 'Competitors monitored daily' },
+  { value: 8, displaySuffix: '', label: 'Web apps deployed in 7 days' },
+  { value: 14600, displaySuffix: '+', label: 'Lines of code in one afternoon' },
+  { value: 0, displaySuffix: '', displayOverride: '∞', label: 'New tools shipped every night' },
 ]
 
 export default function Kit() {
@@ -71,7 +109,9 @@ export default function Kit() {
             <FadeIn key={i} delay={i * 0.1}>
               <div className="text-center">
                 <div className="font-[family-name:var(--font-playfair)] text-4xl sm:text-5xl lg:text-6xl font-bold mb-3">
-                  {stat.value}
+                  {stat.displayOverride ? stat.displayOverride : (
+                    <AnimatedNumber value={stat.value} suffix={stat.displaySuffix} />
+                  )}
                 </div>
                 <div className="text-sm sm:text-base uppercase tracking-widest opacity-60">
                   {stat.label}

@@ -19,16 +19,19 @@ export default function Navigation() {
     <>
       {/* Desktop Navigation - Fixed Left Sidebar */}
       <nav className="hidden lg:flex fixed left-0 top-0 h-screen w-[200px] flex-col gap-3 p-4 z-50 overflow-y-auto">
-        {sections.map((s) => (
-          <a
+        {sections.map((s, i) => (
+          <motion.a
             key={s.num}
             href={s.href}
+            initial={{ opacity: 0, x: -40 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: i * 0.1, duration: 0.5, ease: [0.25, 0.1, 0, 1] }}
             className={`${s.color} rounded-2xl p-4 flex flex-col justify-between min-h-[90px] transition-transform hover:scale-[1.03] active:scale-[0.98]`}
             style={{ color: s.num === '00' ? '#1A1A1A' : 'white' }}
           >
             <span className="text-xs opacity-70">{s.num}</span>
             <span className="text-sm font-medium mt-2">{s.label}</span>
-          </a>
+          </motion.a>
         ))}
       </nav>
 

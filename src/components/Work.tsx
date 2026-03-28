@@ -111,7 +111,7 @@ export default function Work() {
                 href={project.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="block w-[340px] sm:w-[420px] bg-white/5 rounded-2xl p-8 hover:bg-white/10 transition-colors group flex-shrink-0"
+                className="block w-[340px] sm:w-[420px] bg-white/5 rounded-2xl p-8 hover:bg-white/10 group flex-shrink-0 transition-all duration-200 hover:-translate-y-1 hover:shadow-lg hover:shadow-white/5"
               >
                 <span className="text-accent text-xs uppercase tracking-widest">{project.category}</span>
                 <h3 className="font-[family-name:var(--font-playfair)] text-2xl sm:text-3xl font-bold mt-3 mb-4 group-hover:text-accent transition-colors">
