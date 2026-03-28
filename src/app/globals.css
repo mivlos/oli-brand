@@ -1,0 +1,73 @@
+@import "tailwindcss";
+
+@theme {
+  --color-cream: #EDE8E0;
+  --color-cream-dark: #E0DAD0;
+  --color-ink: #1A1A1A;
+  --color-accent: #E84327;
+  --color-accent-dark: #C93A20;
+  --color-warm: #D4A574;
+  --color-navy: #0A1628;
+  --color-amber: #E8A838;
+  --font-serif: 'Playfair Display', Georgia, serif;
+  --font-sans: 'Inter', system-ui, sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--color-cream);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+::selection {
+  background-color: var(--color-accent);
+  color: white;
+}
+
+/* Hide scrollbar for horizontal scroll sections */
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Section indicator bar */
+.section-bar {
+  background-color: var(--color-accent);
+  color: white;
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 0.5rem 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Large display text */
+.display-xl {
+  font-family: var(--font-serif);
+  font-weight: 900;
+  line-height: 0.9;
+  letter-spacing: -0.03em;
+}
+
+/* Manifesto number */
+.manifesto-num {
+  font-family: var(--font-serif);
+  font-size: clamp(4rem, 15vw, 12rem);
+  font-weight: 900;
+  line-height: 0.85;
+  opacity: 0.08;
+  position: absolute;
+  top: -1rem;
+  left: -0.5rem;
+}
